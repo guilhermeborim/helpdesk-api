@@ -1,49 +1,35 @@
-# Sistema de Gerenciamento de Chamados - HelpDesk
+# HelpDesk API
 
-## ADMINISTRADOR
+API do sistema HelpDesk, responsável pelo gerenciamento de chamados, roles de usuários e comunicação entre frontend e banco de dados.
 
-- [] Deve conseguir listar todos os chamados de qualquer Cliente.
-- [] Deve conseguir editar o status dos chamados
+---
 
-### TÉCNICOS
+## Tecnologias
 
-- CRIAR, EDITAR, LISTAR OS TÉCNICOS
-- [] Ao criar um técnico, o administrador da uma senha provisória
+- Node.js + TypeScript + Fastify
+- PostgreSQL (via Docker)
+- Prisma ORM
+- Docker & Docker Compose
 
-### SERVIÇOS
+---
 
-- CRIAR, EDITAR, DESATIVAR, LISTAR SERVIÇOS
-- [] Ao desativar um serviço ele não pode aparecer na criação de um novo Chamado, mas deve permanecer nos Chamados ja criados.
+## Pré-requisitos
 
-### Clientes
+Antes de começar, certifique-se de ter instalado:
 
-- LISTAR, EDITAR, EXCLUIR CLIENTES
-- [] Ao excluir um cliente, todos os chamados são apagados tambem.
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
 
-## TÉCNICOS
+---
 
-- [] Editar seu perfil
-- [] Listar todos os chamados que são dele
-- [] Adicionar novos serviços ao chamados se for necessário
-- [] Editar o status do chamado
-- [] Quando iniciar o atendimento, tem que mudar o status do chamado para 'Em atendimento'
-- [] Quanto encerrar o atendimento, tem que mudar o status do chamado para 'Encerrado'
+## Clonando o projeto
 
-## CLIENTES
+```bash
+git clone https://github.com/seu-usuario/helpdesk-api.git
+cd helpdesk-api
+```
 
-- CRIAR, EDITAR, EXCLUIR sua conta ( ao excluir, exclui todos os seus chamados juntos)
-- [] Visualizar todos os seus chamados
-- [] Após o chamado criado, não pode alterar mais nenhuma informação, apenas visualizar
+## Suba o container docker
 
-## CHAMADOS
-
-- O cliente pode criar vários chamados por ele
-- Deve selecionar a categoria do serviço
-- Todo chamado deve ter pelo menos 1 serviço, podendo ser adicionado novos serviços pelo Técnico.
-- O chamado deve exibir o valor do Serviço solicitado e o valor de cada Serviço adicional incluido pelo Técnico e o somatório de tudo.
-- status: Aberto, Em Atendimento, Encerrado
-
-## SERVIÇO
-
-- Somente o admin pode criar um Serviço
-- Cada serviço terá um valor a ser cobrado do Cliente.
+docker compose up -d
