@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  TECNICO
+  CLIENTE
+}
+
+enum CallStatus {
+  ABERTO
+  EM_ATENDIMENTO
+  ENCERRADO
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  role         Role     @default(CLIENTE)
+  
+  availability String[] @default(["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00"])
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  assignedCalls Call[] @relation("TechnicianCalls")
+  
+  clientCalls   Call[] @relation("ClientCalls")
+
+  @@map("users")
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  price       Float
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  additionalServices CallService[]
+  mainCalls          Call[]
+
+  @@map("services")
+}
+
+model Call {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  status      CallStatus @default(ABERTO)
+  servicePrice Float
+  clientId    String
+  client      User       @relation("ClientCalls", fields: [clientId], references: [id], onDelete: Cascade)
+  
+  technicianId String
+  technician   User       @relation("TechnicianCalls", fields: [technicianId], references: [id])
+
+  serviceId String
+  service   Service    @relation(fields: [serviceId], references: [id])
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  callServices CallService[]
+
+  @@map("calls")
+}
+
+model CallService {
+  id        String   @id @default(uuid())
+  
+  callId    String
+  call      Call     @relation(fields: [callId], references: [id], onDelete: Cascade)
+  
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  
+  price     Float
+  
+  createdAt DateTime @default(now())
+
+  @@unique([callId, serviceId])
+  @@map("call_services")
+}
