@@ -30,7 +30,8 @@ export async function authenticate(
       { sign: { sub: user.id } }
     );
 
-    return reply.status(200).send({ token });
+    const { password: _, ...userData } = user;
+    return reply.status(200).send({ token, userData });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: error.message });
