@@ -2,3 +2,8 @@ node_modules
 build
 .env
 /generated/prisma
+# Added by code-review-graph
+.code-review-graph/
+.claude/
+.mcp.json
+CLAUDE.md

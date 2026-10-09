@@ -12,7 +12,9 @@ export const app = fastify();
 
 app.register(fastifyCors, {
   origin: env.CORS_ORIGIN
-    ? env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+    ? env.CORS_ORIGIN.split(",").map((origin) =>
+        origin.trim().replace(/\/+$/, "")
+      )
     : true,
   methods: ["GET", "HEAD", "POST", "PATCH", "PUT", "DELETE"],
 });
