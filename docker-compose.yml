@@ -1,9 +1,9 @@
 services:
   helpdesk:
-    image: bitnami/postgresql:17.6.0
+    image: bitnami/postgresql:latest
     ports:
-      - 5433:5432
+      - 5434:5432
     environment:
-      - POSTGRESQL_USERNAME=helpdesk
-      - POSTGRESQL_PASSWORD=helpdesk
-      - POSTGRESQL_DATABASE=helpdesk
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}

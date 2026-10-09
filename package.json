@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build"
+    "build": "prisma generate && tsup src --out-dir build",
+    "seed": "node build/seed.js",
+    "deploy:build": "prisma migrate deploy && yarn build && yarn seed"
   },
   "devDependencies": {
     "@types/bcryptjs": "3.0.0",

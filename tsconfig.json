@@ -9,11 +9,8 @@
     "module": "nodenext",
     "target": "es2020",
     "types": [],
-    "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     // For nodejs:
     // "lib": ["esnext"],
@@ -40,6 +37,6 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   }
 }

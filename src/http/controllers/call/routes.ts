@@ -5,6 +5,7 @@ import { get } from "./get";
 import { getByIdTech } from "./get-id-tech";
 import { getByIdUser } from "./get-id-user";
 import { register } from "./register";
+import { updateStatus } from "./update-status";
 
 export async function callsRoutes(app: FastifyInstance) {
   app.addHook("onRequest", verifyJWT);
@@ -20,5 +21,10 @@ export async function callsRoutes(app: FastifyInstance) {
     "/calls/tech/:id",
     { onRequest: [verifyUserRole("TECNICO")] },
     getByIdTech
+  );
+  app.patch(
+    "/calls/:id/status",
+    { onRequest: [verifyUserRole("TECNICO")] },
+    updateStatus
   );
 }

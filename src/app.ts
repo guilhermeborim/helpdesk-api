@@ -10,7 +10,12 @@ import { usersRoutes } from "./http/controllers/users/routes";
 
 export const app = fastify();
 
-app.register(fastifyCors);
+app.register(fastifyCors, {
+  origin: env.CORS_ORIGIN
+    ? env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+    : true,
+  methods: ["GET", "HEAD", "POST", "PATCH", "PUT", "DELETE"],
+});
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {

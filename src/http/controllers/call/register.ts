@@ -1,3 +1,4 @@
+import { NoTechnicianAvailable } from "@/services/errors/no-technician-available";
 import { makeRegisterCallUseCase } from "@/services/factories/make-register-call-usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -27,6 +28,9 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     return reply.status(201).send();
   } catch (error) {
+    if (error instanceof NoTechnicianAvailable) {
+      return reply.status(409).send({ message: error.message });
+    }
     throw error;
   }
 }

@@ -2,6 +2,7 @@ import { CallRepository } from "@/repositories/call-repositoy";
 import { ServiceRepository } from "@/repositories/service-repositoy";
 import { UsersRepository } from "@/repositories/users-repositoy";
 import { CallStatus } from "@prisma/client";
+import { NoTechnicianAvailable } from "../errors/no-technician-available";
 import { ServiceNotExists } from "../errors/service-not-exists";
 
 interface RegisterCallRequest {
@@ -27,9 +28,15 @@ export class RegisterCallUseCase {
     serviceId,
   }: RegisterCallRequest) {
     const service = await this.serviceRepository.findyById(serviceId);
-    const tech = await this.usersRepository.findByUsersTec();
     if (!service) {
       throw new ServiceNotExists();
+    }
+
+    const technicians = await this.usersRepository.findByUsersTec();
+    const technician =
+      technicians[Math.floor(Math.random() * technicians.length)];
+    if (!technician) {
+      throw new NoTechnicianAvailable();
     }
 
     await this.callRepository.create({
@@ -38,7 +45,7 @@ export class RegisterCallUseCase {
       status,
       servicePrice: service.price,
       client: { connect: { id: clientId } },
-      technician: { connect: { id: tech[0]?.id! } },
+      technician: { connect: { id: technician.id } },
       service: { connect: { id: serviceId } },
     });
   }
